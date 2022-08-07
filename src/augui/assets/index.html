@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>GUI for AUV</title>
+
+    <!-- Bootstrap CSS CDN -->
+    <link rel="stylesheet" href="{{ static_url('css/bootstrap.min.css') }}">
+    <!-- Our Custom CSS -->
+    <link rel="stylesheet" href="{{ static_url('css/style.css') }}">
+    <link rel="stylesheet" href="{{ static_url('css/local.css') }}">
+    <!-- Scrollbar Custom CSS -->
+    <link rel="stylesheet" href="{{ static_url('css/jquery.mCustomScrollbar.min.css') }}">
+
+    <!-- Font Awesome JS -->
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" crossorigin="anonymous"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY" crossorigin="anonymous"></script>
+    <!-- leaflet -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.8.0/dist/leaflet.css"
+    integrity="sha512-hoalWLoI8r4UszCkZ5kL8vayOGVae1oxXe/2A4AO6J9+580uKHDO3JdHb7NzwwzK5xr/Fs0W40kiNHxM9vyTtQ=="
+    crossorigin=""/>
+</head>
+
+<body>
+
+    <div class="wrapper">
+        <!-- Sidebar  -->
+        <nav id="sidebar">
+            <div id="dismiss">
+                <i class="fas fa-arrow-left"></i>
+            </div>
+
+            <div class="sidebar-header">
+                <h3>GUI for AUV</h3>
+            </div>
+
+            <ul class="list-unstyled components">
+                <!-- <p>Dummy Heading</p> -->
+                <li class="active">
+                    <a href="#">Front</a>
+                    <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false">Pages</a>
+                    <ul class="collapse list-unstyled" id="pageSubmenu">
+                        <li>
+                            <a href="#">Page 1</a>
+                        </li>
+                        <li>
+                            <a href="#">Page 2</a>
+                        </li>
+                        <li>
+                            <a href="#">Page 3</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#">test1</a>
+                </li>
+                <li>
+                    <a href="#">test2</a>
+                </li>
+            </ul>
+        </nav>
+
+        <!-- Page Content  -->
+        <div id="content">
+            <button type="button" id="sidebarCollapse" class="btn btn-info">
+                <i class="fas fa-align-justify"></i>
+            </button>
+            <canvas id="depthChart"></canvas>
+            <div id="onoffswitch">
+                <ul class="list-unstyled components">
+                    <li>
+                        <button class="onoff-button" id="onoff-thruster" onclick="onOffSwitch(this.id)">Thruster</button>
+                    </li>
+                    <li>
+                        <button class="onoff-button" id="onoff-left_upper" onclick="onOffSwitch(this.id)">Left-Upper</button>
+                    </li>
+                    <li>
+                        <button class="onoff-button" id="onoff-left_lower" onclick="onOffSwitch(this.id)">Left-Lower</button>
+                    </li>
+                    <li>
+                        <button class="onoff-button" id="onoff-right_upper" onclick="onOffSwitch(this.id)">Right-Upper</button>
+                    </li>
+                    <li>
+                        <button class="onoff-button" id="onoff-right_lower" onclick="onOffSwitch(this.id)">Right-Lower</button>
+                    </li>
+                    <li>
+                        <button class="onoff-button" id="onoff-ins" onclick="onOffSwitch(this.id)">INS</button>
+                    </li>
+                    <li>
+                        <button class="onoff-button" id="onoff-dvl" onclick="onOffSwitch(this.id)">DVL</button>
+                    </li>
+                    <li>
+                        <button class="onoff-button" id="onoff-gps" onclick="onOffSwitch(this.id)">GPS</button>
+                    </li>
+                    <li>
+                        <button class="onoff-button" id="onoff-fls" onclick="onOffSwitch(this.id)">FLS</button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="overlay"></div>
+
+    <!-- jQuery CDN - Slim version (=without AJAX) -->
+    <script src="js/jquery-3.6.0.slim.min.js"></script>
+    <!-- Popper.JS -->
+    <script src="js/popper.min.js"></script>
+    <!-- Bootstrap JS -->
+    <script src="js/bootstrap.min.js"></script>
+    <!-- jQuery Custom Scroller CDN -->
+    <script src="js/jquery.mCustomScrollbar.concat.min.js"></script>
+    <!-- leaflet -->
+    <script src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js"
+    integrity="sha512-BB3hKbKWOc9Ez/TAwyWxNXeoV9c1v6FIeYiBieIWkpLjauysF18NzgR1MBNBXf8/KABdlkX68nAhlwcDFLGPCQ=="
+    crossorigin=""></script>
+    <!-- Quarternion -->
+    <script src="js/quaternion.js"></script>
+    <!-- chart -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js" integrity="sha512-d9xgZrVZpmmQlfonhQUvTR7lMPtO7NkZMkA0ABN3PHCbKA5nqylQ/yWlFAyY6hYgdF1Qh6nYiuADWwKB4C2WSw==" crossorigin="anonymous"></script>
+    <!-- proj4 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.8.0/proj4.js"></script>
+    <!-- local app -->
+    <script src="js/app.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#sidebar").mCustomScrollbar({
+                theme: "minimal"
+            });
+
+            $('#dismiss, .overlay').on('click', function () {
+                $('#sidebar').removeClass('active');
+                $('.overlay').removeClass('active');
+            });
+
+            $('#sidebarCollapse').on('click', function () {
+                $('#sidebar').addClass('active');
+                $('.overlay').addClass('active');
+                $('.collapse.in').toggleClass('in');
+                $('a[aria-expanded=true]').attr('aria-expanded', 'false');
+            });
+        });
+    </script>
+</body>
+
+</html>

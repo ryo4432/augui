@@ -1,0 +1,52 @@
+#sidebar {
+  z-index: 1500;
+}
+
+#content {
+  height: 100%;
+  width: 100%;
+}
+
+#sidebarCollapse {
+  z-index: 1000;
+  margin-left: 50px;
+  position: relative;
+}
+
+#content-chart {
+  z-index: 1000;
+  position: fixed;
+  left: 50%;
+  bottom: 0px;
+  transform: translate(-50%, -50%);
+  margin: 0 auto;
+}
+
+#depthChart {
+  z-index: 1000;
+  position: fixed;
+  height: 50%;
+  left: 50%;
+  bottom: 0px;
+  transform: translate(-50%, 0%);
+  margin: 0 auto;
+}
+
+#onoffswitch {
+  text-align: right;
+}
+
+.onoff-button {
+  position: relative;
+  z-index: 1000;
+  background-color: #04AA6D;
+  border: none;
+  color: white;
+  padding: 10px 20px 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 12px;
+  margin: 4px 2px;
+  border-radius: 12px;
+}
