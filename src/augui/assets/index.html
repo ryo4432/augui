@@ -99,6 +99,9 @@
                     <li>
                         <button class="onoff-button" id="onoff-fls" onclick="onOffSwitch(this.id)">FLS</button>
                     </li>
+                    <li>
+                        <button class="onoff-button" id="joy" onclick="joySwitch()" style="width: 100px">joystick<br>no control</button>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -118,6 +121,8 @@
     <script src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js"
     integrity="sha512-BB3hKbKWOc9Ez/TAwyWxNXeoV9c1v6FIeYiBieIWkpLjauysF18NzgR1MBNBXf8/KABdlkX68nAhlwcDFLGPCQ=="
     crossorigin=""></script>
+    <!-- leaflet.rotatedMarker -->
+    <script src="js/leaflet.rotatedMarker.js"></script>
     <!-- Quarternion -->
     <script src="js/quaternion.js"></script>
     <!-- chart -->
@@ -125,6 +130,8 @@
     <!-- proj4 -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.8.0/proj4.js"></script>
     <!-- local app -->
+    <img src="js/img/auv.drawio.svg"></img>
+    <script text="text/javascript" src="js/math_library.js"></script>
     <script src="js/app.js"></script>
     <script type="text/javascript">
         $(document).ready(function () {

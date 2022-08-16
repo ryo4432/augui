@@ -4,8 +4,64 @@ from sensor_msgs.msg import NavSatFix
 from nav_msgs.msg import Odometry
 from std_msgs.msg import Float64, Bool
 from std_srvs.srv import SetBool
+from demo_msgs.srv import GetWaypoints
+from demo_msgs.msg import Waypoint
 import math
 from scipy.spatial.transform import Rotation as R
+from augui.math_library import transform2d, xy2ll
+
+
+class Route():
+    def __init__(self, node):
+        self.node = node
+        self.olat = node.lat
+        self.olon = node.lon
+        self.theta = node.theta
+        xs = 1500
+        ys = 2500
+        d = 200
+
+        self.oXYs = []
+        idx = 0
+        while True:
+            self.oXYs.append([-xs, -ys + d * idx])
+            self.oXYs.append([xs, -ys + d * idx])
+            idx += 1
+            if -ys + d * idx > ys:
+                break
+            self.oXYs.append([xs, -ys + d * idx])
+            self.oXYs.append([-xs, -ys + d * idx])
+            idx += 1
+            # [-1500, -2500],
+            # [1500, -2500],
+            # [1500, -2300],
+            # [-1500, -2300],
+            # [-1500, -2100]
+        self.rXYs = []
+        for xy in self.oXYs:
+            x, y = transform2d(xy[0], xy[1], self.theta / 180.0 * math.pi)
+            self.rXYs.append([x, y])
+        
+        self.srv_route = self.node.create_service(GetWaypoints, "get_waypoints", self.cb_srv_route)
+
+    def get_route(self):
+        wpsLL = []
+        for xy in self.rXYs:
+            lat, lon = xy2ll(self.olat, self.olon, xy[0], xy[1])
+            wpsLL.append([lat, lon])
+        return wpsLL
+
+    def cb_srv_route(self, req, res):
+        wps = self.get_route()
+        res.waypoints = []
+        for el in wps:
+            wp = Waypoint()
+            wp.latitude = el[0]
+            wp.longitude = el[1]
+            wp.depth = 30.0
+            wp.speed = 0.5
+            res.waypoints.append(wp)
+        return res
 
 
 class PowerOnOff():
@@ -34,9 +90,9 @@ class Mockup(Node):
             "origin_lat", 35.056796).get_parameter_value().double_value
         self.lon = self.declare_parameter(
             "origin_lon", 138.765736).get_parameter_value().double_value
-        self.declare_parameter("region_height", 100.0)
-        self.declare_parameter("region_width", 200.0)
-        self.declare_parameter("region_direction", 30.0)
+        self.declare_parameter("region_height", 2000.0)
+        self.declare_parameter("region_width", 3000.0)
+        self.theta = self.declare_parameter("region_direction", 60.0).get_parameter_value().double_value
         self.timer = self.create_timer(0.1, self.timer_callback)
         self.pub_gps = self.create_publisher(NavSatFix, 'gps', 10)
         self.pub_odom = self.create_publisher(Odometry, "odom", 10)
@@ -57,6 +113,7 @@ class Mockup(Node):
             self.powers.update({name: PowerOnOff(self, name)})
         self.rad = 0.0
         self.odom = Odometry()
+        self.route = Route(self)
 
     def timer_callback(self):
         self.rad += 0.1

@@ -14,6 +14,7 @@ setup(
         ('share/' + package_name, ['package.xml']),
         (os.path.join('share', package_name, 'launch'), glob('launch/*_launch.py')),
         (os.path.join('share', 'assets'), glob('assets/*.html')),
+        (os.path.join('share', 'assets'), glob('assets/js/img/*.svg')),
         (os.path.join('share', 'assets'), glob('assets/css/*.css')),
         (os.path.join('share', 'assets'), glob('assets/css/*.css.map')),
         (os.path.join('share', 'assets'), glob('assets/js/*.js')),

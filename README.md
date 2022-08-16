@@ -6,11 +6,13 @@ AUGUI is a GUI for AUV(Autonomous Underwater Vehicle) on a web browser.
 
 ## feature
 
-- display the auv Lat-Lon postion on the map
-- display the time series graph of auv depth/altitude
-- display the hardware power on/off status
-- switch the hardware power on/off status
-- (under development)operation region for auv(blue rectangle) and overlapping something icon on the map
+- display the auv Lat-Lon postion and direction on the map. (using the topic values of subscribed Odometry and NavSatFix type)
+- display the time series graph of auv depth/altitude. (using the topic values of subscribed Odometry and Float64 type)
+- display the hardware power on/off status. (using the topic value of subscribed Bool type)
+- switch the hardware power on/off status. (using the response value of std_srvs/srv/SetBool type service)
+- operation region for auv(blue rectangle). (using the response value of rcl_interfaces/srv/GetParameters type service)
+- display the waypoint route. (using the response value of the waypoint information taking service)
+- publish /cmd_vel from joystick controller value.
 
 ## environment
 
@@ -25,6 +27,8 @@ AUGUI is a GUI for AUV(Autonomous Underwater Vehicle) on a web browser.
   - jQuery
   - bootstrap
   - leaflet
+  - leaflet.rotatedMarker.js
+    - https://github.com/bbecquet/Leaflet.RotatedMarker
   - Chart.js
   - quaternion
     - https://github.com/infusion/Quaternion.js/
